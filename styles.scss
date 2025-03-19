@@ -1,0 +1,90 @@
+:root {
+  --width: 300px;
+  --red: 50;
+  --green: 150;
+  --blue: 255;
+  --perspective: 1000px;
+}
+
+body {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+  margin: 0;
+  background-color: #222;
+  perspective: var(--perspective);
+  scrollbar-width: none;
+}
+/* Перспектива через perspective дается контейнеру, но нужна элементам*/
+
+.shadow {
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  border-radius: 50%;
+  box-shadow: 0 0 400px 200px rgba(200, 255, 255, 0.5);
+}
+
+.perspectiveContainer {
+  width: var(--width);
+  aspect-ratio: 1; /* Высота повторяется за шириной: если ширина 50, то и высота тоже */
+  position: relative;
+  transform-style: preserve-3d;
+  animation: rotating 6s ease-in-out infinite;
+  transform: rotateX(-20deg) rotateY(-20deg);
+}
+/* preserve-3d чтобы элементы были 3d */
+
+.face {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  width: var(--width);
+  height: var(--width);
+  background: rgba(0, 0, 0, 0.3);
+  border: 0.5px solid dodgerblue;
+  box-shadow: 0 0 3px 1px rgba(var(--red), var(--green), var(--blue), 0.3), inset 0 0 50px 10px rgba(50, 150, 255, 0.3);
+  font-size: 40px;
+  color: white;
+}
+
+// translateZ меняет положение элемента относительно оси Z то есть вглубину,
+// rotateX или rotateY вращает по осям X и Y соответственно
+
+.front {
+  transform: translateZ(calc(var(--width) / 2));
+}
+
+.back {
+  transform: rotateY(180deg) translateZ(calc(var(--width) / 2));
+}
+
+.top {
+  transform: rotateX(90deg) translateZ(calc(var(--width) / 2));
+}
+
+.bottom {
+  transform: rotateX(-90deg) translateZ(calc(var(--width) / 2));
+}
+
+.left {
+  transform: rotateY(-90deg) translateZ(calc(var(--width) / 2));
+}
+
+.right {
+  transform: rotateY(90deg) translateZ(calc(var(--width) / 2));
+}
+
+@keyframes rotating {
+  0% {
+    transform: rotate3d(1, 1, 0, -20deg);
+  }
+
+  100% {
+    transform: rotate3d(1, 1, 0, 340deg);
+  }
+}
